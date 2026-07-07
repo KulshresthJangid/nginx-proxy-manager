@@ -51,7 +51,7 @@ function Router() {
 	}
 
 	return (
-		<BrowserRouter>
+		<BrowserRouter basename="/npm">
 			<Page>
 				<div>
 					<SiteHeader />

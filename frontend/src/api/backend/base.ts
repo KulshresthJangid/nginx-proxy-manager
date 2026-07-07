@@ -25,7 +25,7 @@ function decamelizeParams(params?: StringifiableRecord): StringifiableRecord | u
 
 function buildUrl({ url, params }: BuildUrlArgs) {
 	const endpoint = url.replace(/^\/|\/$/g, "");
-	const baseUrl = `/api/${endpoint}`;
+	const baseUrl = `/npm/api/${endpoint}`;
 	const apiUrl = queryString.stringifyUrl({
 		url: baseUrl,
 		query: decamelizeParams(params),

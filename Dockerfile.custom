@@ -1,0 +1,9 @@
+FROM node:20-alpine AS frontend-builder
+WORKDIR /build
+COPY frontend/package.json frontend/yarn.lock ./
+RUN yarn install --frozen-lockfile
+COPY frontend/ ./
+RUN yarn build
+
+FROM jc21/nginx-proxy-manager:latest
+COPY --from=frontend-builder /build/dist /app/frontend
