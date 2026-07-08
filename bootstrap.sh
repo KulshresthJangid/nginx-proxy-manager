@@ -6,18 +6,18 @@ EMAIL="admin@buildwithkulshresth.com"
 PASSWORD="KaizexAdmin2026!"
 
 echo "==> Waiting for NPM API..."
-until curl -sf "$BASE/api" > /dev/null 2>&1; do
+until curl -sf "$BASE/api/" > /dev/null 2>&1; do
   echo "   not ready yet, retrying..."
   sleep 3
 done
 echo "   NPM is up."
 
 # ── Check if first-time setup needed ──────────────────────────────
-SETUP=$(curl -sf "$BASE/api" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('setup', False))")
+SETUP=$(curl -sf "$BASE/api/" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('setup', False))")
 
 if [ "$SETUP" = "False" ]; then
   echo "==> First-time setup — creating admin user..."
-  curl -sf -X POST "$BASE/api/users" \
+  curl -sf -X POST "$BASE/api/users/" \
     -H "Content-Type: application/json" \
     -d "{
       \"name\": \"Admin\",
@@ -36,7 +36,7 @@ fi
 
 # ── Login ──────────────────────────────────────────────────────────
 echo "==> Logging in..."
-TOKEN=$(curl -sf -X POST "$BASE/api/tokens" \
+TOKEN=$(curl -sf -X POST "$BASE/api/tokens/" \
   -H "Content-Type: application/json" \
   -d "{\"identity\":\"$EMAIL\",\"secret\":\"$PASSWORD\"}" \
   | python3 -c "import sys,json; print(json.load(sys.stdin)['token'])")
@@ -174,7 +174,7 @@ print(json.dumps(sys.stdin.read()))
 
 # ── Create proxy host ──────────────────────────────────────────────
 echo "==> Creating proxy host for buildwithkulshresth.com..."
-RESULT=$(curl -sf -X POST "$BASE/api/nginx/proxy-hosts" \
+RESULT=$(curl -sf -X POST "$BASE/api/nginx/proxy-hosts/" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $TOKEN" \
   -d "{
