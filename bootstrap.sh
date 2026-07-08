@@ -6,14 +6,14 @@ EMAIL="admin@buildwithkulshresth.com"
 PASSWORD="KaizexAdmin2026!"
 
 echo "==> Waiting for NPM API..."
-until curl -sf "$BASE/api/nginx/health" > /dev/null 2>&1; do
+until curl -sf "$BASE/api" > /dev/null 2>&1; do
   echo "   not ready yet, retrying..."
   sleep 3
 done
 echo "   NPM is up."
 
 # ── Check if first-time setup needed ──────────────────────────────
-SETUP=$(curl -sf "$BASE/api/nginx/health" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('setup', False))")
+SETUP=$(curl -sf "$BASE/api" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('setup', False))")
 
 if [ "$SETUP" = "False" ]; then
   echo "==> First-time setup — creating admin user..."
