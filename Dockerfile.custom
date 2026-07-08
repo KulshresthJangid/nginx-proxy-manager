@@ -3,7 +3,7 @@ WORKDIR /build
 COPY frontend/package.json frontend/yarn.lock ./
 RUN yarn install --frozen-lockfile
 COPY frontend/ ./
-RUN yarn build
+RUN yarn locale-compile && yarn build
 
 FROM jc21/nginx-proxy-manager:latest
 COPY --from=frontend-builder /build/dist /app/frontend
